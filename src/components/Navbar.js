@@ -1,25 +1,38 @@
 import React, { Component } from 'react'
 import { ThemeContext } from '../contexts/ThemeContext'
+import { AuthContext } from '../contexts/AuthContext'
 
 export default class Navbar extends Component {
-    static contextType = ThemeContext
+    // static contextType = ThemeContext
     render() {
-        const { isLightTheme, light, dark } = this.context;
-        const theme = isLightTheme ? light : dark;
-
         return (
-            <div>
-                <nav style={{ background: theme.ui, color: theme.syntax }}>
-                    <h1>
-                        App Name
-                    </h1>
-                    <ul>
-                        <li>Home</li>
-                        <li>About</li>
-                        <li>Contract</li>
-                    </ul>
-                </nav>
-            </div>
+            <AuthContext.Consumer>{(authContext) => (
+                <ThemeContext.Consumer>{(themeContext) => {
+                    const { toggleAuth, isLoggedIn } = authContext
+                    const { isLightTheme, light, dark } = themeContext;
+                    const theme = isLightTheme ? light : dark;
+                    // const auth = 
+                    return (
+                        <div>
+                            <nav style={{ background: theme.ui, color: theme.syntax }}>
+                                <h1>
+                                    App Name
+                                </h1>
+                                <h3>
+                                    <a onClick={toggleAuth}>{isLoggedIn ? 'Logged In' : "Logged Out"}</a>
+                                </h3>
+                                <ul>
+                                    <li>Home</li>
+                                    <li>About</li>
+                                    <li>Contract</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    )
+                }}
+                </ThemeContext.Consumer>
+            )}
+            </AuthContext.Consumer>
         )
     }
 }

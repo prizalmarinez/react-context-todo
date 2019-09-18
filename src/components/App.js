@@ -6,16 +6,20 @@ import Navbar from './Navbar'
 import TodoList from './todos/TodoList'
 // contexts
 import ThemeContextProvider from '../contexts/ThemeContext'
+import AuthContextProvider from '../contexts/AuthContext'
+
 import ThemeToggle from './ThemeToggle'
 
 const App = () => {
     return (
         <div className="app">
-            <ThemeContextProvider>
-                <Navbar />
-                <TodoList />
-                <ThemeToggle />
-            </ThemeContextProvider>
+            <AuthContextProvider>
+                <ThemeContextProvider>
+                    <Navbar />
+                    <TodoList />
+                    <ThemeToggle />
+                </ThemeContextProvider>
+            </AuthContextProvider>
         </div>
     )
 }
