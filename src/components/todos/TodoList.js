@@ -1,23 +1,34 @@
 import React, { Component } from 'react'
 //context
 import { ThemeContext } from '../../contexts/ThemeContext'
+import { TodoContext } from '../../contexts/TodoContext'
 
 export default class TodoList extends Component {
-    static contextType = ThemeContext
-
     render() {
-        // console.log(this.context)
-        const { isLightTheme, light, dark } = this.context;
-        const theme = isLightTheme ? light : dark;
-        console.log(isLightTheme, theme)
         return (
-            <div className="todo-list" style={{ color: theme.syntax, background: theme.bg }}>
-                <ul>
-                    <li style={{ background: theme.ui }}>the way of the kings</li>
-                    <li style={{ background: theme.ui }}>the way of the kings</li>
-                    <li style={{ background: theme.ui }}>the way of the kings</li>
-                </ul>
-            </div>
+            <ThemeContext.Consumer>{(themeContext) => (
+                <TodoContext.Consumer>{(todoContext) => {
+                    const { isLightTheme, light, dark } = themeContext;
+                    const theme = isLightTheme ? light : dark;
+                    const { todos } = todoContext;
+                    return (
+                        <div className="todo-list" style={{ color: theme.syntax, background: theme.bg }}>
+                            <ul>
+                                {todos.map((todo) => {
+                                    return (
+                                        <li key={todo.id} style={{ background: theme.ui }}>
+                                            {todo.title}
+                                        </li>
+                                    )
+                                })}
+
+                            </ul>
+                        </div>
+                    )
+                }}
+                </TodoContext.Consumer>
+            )}
+            </ThemeContext.Consumer>
         )
     }
 }
